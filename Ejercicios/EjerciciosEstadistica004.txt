@@ -1,0 +1,136 @@
+setwd("C:/Users/Nelson/Desktop/Curso Machine Learning/AFPCrecer/CursoEstudio/FundamentosMachineLearning/CursoFinal/Ejercicios")
+
+
+#Removiendo las filas con datos faltantes
+df = read.table(text="
+Date        Sales
+09/01/2017  9000
+09/02/2017  12000
+09/03/2017  0
+09/04/2017  11000
+09/05/2017  14400
+09/06/2017  0
+09/07/2017  0
+09/08/2017  21000
+09/09/2017  15000
+09/10/2017  23100
+09/11/2017  0
+09/12/2017  32000
+09/13/2017  8000",
+header=TRUE, stringsAsFactors=FALSE)
+df$Date = as.Date(df$Date, format="%m/%d/%Y")
+plot(df, type="l")
+
+df[apply(df!=0, 1, all),]
+
+df<-df[apply(df!=0, 1, all),]
+
+plot(df, type="l")
+
+
+
+
+
+#Poblando Valores Faltantes con un valor por defecto
+df = read.table(text="
+Date        Sales
+09/01/2017  9000
+09/02/2017  12000
+09/03/2017  0
+09/04/2017  11000
+09/05/2017  14400
+09/06/2017  0
+09/07/2017  0
+09/08/2017  21000
+09/09/2017  15000
+09/10/2017  23100
+09/11/2017  0
+09/12/2017  32000
+09/13/2017  8000",
+header=TRUE, stringsAsFactors=FALSE)
+df$Date = as.Date(df$Date, format="%m/%d/%Y")
+plot(df, type="l")
+## Valor por defecto 20000
+df$Sales[df$Sales == 0] = 20000
+plot(df, type="l")
+
+
+
+
+#Poblando Valores Faltantes con la media u otro estadistico
+df = read.table(text="
+Date        Sales
+09/01/2017  9000
+09/02/2017  12000
+09/03/2017  0
+09/04/2017  11000
+09/05/2017  14400
+09/06/2017  0
+09/07/2017  0
+09/08/2017  21000
+09/09/2017  15000
+09/10/2017  23100
+09/11/2017  0
+09/12/2017  32000
+09/13/2017  8000",
+header=TRUE, stringsAsFactors=FALSE)
+df$Date = as.Date(df$Date, format="%m/%d/%Y")
+plot(df, type="l")
+## Poblando con media
+df$Sales[df$Sales == 0] = mean(df$Sales)
+plot(df, type="l")
+
+
+
+df = read.table(text="
+Date        Sales
+09/01/2017  9000
+09/02/2017  12000
+09/03/2017  0
+09/04/2017  11000
+09/05/2017  14400
+09/06/2017  0
+09/07/2017  0
+09/08/2017  21000
+09/09/2017  15000
+09/10/2017  23100
+09/11/2017  0
+09/12/2017  32000
+09/13/2017  8000",
+header=TRUE, stringsAsFactors=FALSE)
+df$Date = as.Date(df$Date, format="%m/%d/%Y")
+plot(df, type="l")
+## Poblando con media
+mean(df$Sales)
+mean(df$Sales[df$Sales > 0])
+df$Sales[df$Sales == 0] = mean(df$Sales[df$Sales > 0])
+plot(df, type="l")
+
+
+
+#Poblando Valores Faltantes con Aprox. Lineal
+df = read.table(text="
+Date        Sales
+09/01/2017  9000
+09/02/2017  12000
+09/03/2017  0
+09/04/2017  11000
+09/05/2017  14400
+09/06/2017  0
+09/07/2017  0
+09/08/2017  21000
+09/09/2017  15000
+09/10/2017  23100
+09/11/2017  0
+09/12/2017  32000
+09/13/2017  8000",
+header=TRUE, stringsAsFactors=FALSE)
+df$Date = as.Date(df$Date, format="%m/%d/%Y")
+plot(df, type="l")
+## Creando Interpolacion Lineal
+Interp = approxfun(df[df$Sales > 0, ])
+Vals = Interp(df$Date[df$Sales == 0])
+df$Sales[df$Sales == 0] = Vals
+plot(df, type="l")
+
+

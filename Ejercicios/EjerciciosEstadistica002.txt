@@ -1,0 +1,397 @@
+install.packages("ggplot2") #Instalando paquete
+library(car) # Paquete que contiene el dataset que utilizaremos
+library(ggplot2) # Paquete para construir visualizaciones
+library(MASS) # Paquete Modern Applied Statistics with S
+
+print(head(Prestige, n = 10)) #analizando las primeras 10 filas del dataset
+#Education: Es la educación promedio de los encuestados
+#Income: Es el ingreso anual promedio en dolares
+#Women: Es el porcentaje de mujeres encuestadas de esa categoria
+#Prestige: Score Ocupacional del Gobierno
+#Census: Codigo del censo ocupacional segun el gobierno
+#Type: Tipo de Ocupacion bc, Blue Collar; prof, Professional, Management, and Technical; wc, White Collar.
+
+ls(Prestige) #Listar las variables en el Dataset
+ncol(Prestige) #Ver cantidad de columnas en el Dataset
+nrow(Prestige) #Ver cantidad de filas en el Dataset
+str(Prestige) #ver Estructura del Dataset
+subset.data <- subset(Prestige, select = c("education", "income", "women", "prestige")) #Generando un subset de datos
+str(subset.data) #Revisando la estructura
+
+mean(subset.data$education) #Calculando la media de la variable Education
+mean(subset.data$income) #Calculando la media de los ingresos
+mean(subset.data$women) #Calculando la media de los porcentajes de mujeres
+mean(subset.data$prestige) #Calculando la media del indice de prestigio
+
+sd(subset.data$education) #Desv. Estandar de los años de educación
+sd(subset.data$income) #Desv. Estandar de los ingresos
+sd(subset.data$women) #Desv. Estandar del porcentaje de mujeres
+sd(subset.data$prestige) #Desv. Estandar del prestigio
+
+#Calculando los rangos
+min(subset.data$education)
+max(subset.data$education)
+min(subset.data$income)
+max(subset.data$income)
+min(subset.data$women)
+max(subset.data$women)
+min(subset.data$prestige)
+max(subset.data$prestige)
+
+range(subset.data$education)
+range(subset.data$income)
+range(subset.data$women)
+range(subset.data$prestige)
+
+#Calculando los percentiles
+quantile(subset.data$education)
+quantile(subset.data$education, prob = c(.25, .50, .75, .95))
+quantile(subset.data$education, c(.25, .50, .75, .95))
+
+quantile(subset.data$income, prob = c(.25, .50, .75, .95))
+quantile(subset.data$income, c(0, .25, .50, .75, 1))
+
+quantile(subset.data$women, prob = c(0, .25, .50, .75, 1))
+
+quantile(subset.data$prestige, c(0, .25, .50, .75, 1))
+
+#percentil Rank
+#En que percentil estan todos aquellos que tienen 8 años o menos de educación
+length(subset.data$education[subset.data$education <= 8]) / length(subset.data$education) * 100
+
+#En que percentil estan todos aquellos que ganan 10K o menos
+length(subset.data$income[subset.data$income <= 10000]) / length(subset.data$income) * 100
+length(subset.data$income[subset.data$income >= 10000]) / length(subset.data$income) * 100
+
+#Generando resumen de estadisticas
+print(summary(subset.data$education))
+
+print(summary(subset.data))
+
+#Generando Scatterplot
+pairs(subset.data, pch = 16, col = "blue", main = "Matrix Scatterplot of Education, Income, Women, Prestige")
+
+#Ploteando dos variables
+plot(subset.data$education, subset.data$income, xlab = "Education", ylab = "Income", pch = 16, col = "blue", main = " Scatterplot of Education vs. Income") 
+
+#Un grafico mas amigable con ggplot
+ggplot(subset.data) + geom_point(aes(x = education, y = income), col = 'blue', size = 3) + ggtitle("Education vs. Income Scatterplot") + theme(plot.title = element_text(hjust = 0.5))
+
+#Calculando la pendiente y el intercepto
+coef(lm(income ~ education, data = subset.data))
+
+#Agregando la pendiente y el intercepto en la grafica
+ggplot(subset.data) +
+  
+  geom_point(aes(x = education, y = income), col = "blue", size = 3) +
+  
+  geom_abline(aes(intercept = -2853, slope = 899), col = "darkred") +
+  
+  ggtitle("Education vs. Income Scatterplot With The Best Fit Line") +
+  
+  theme(plot.title = element_text(hjust = 0.5))
+  
+#Grafica de Barras de la variable Tipos
+plot(Prestige$type, main = "Bar Plot of Occupational Types", col = "cyan", ylab = "COUNT")  
+
+#Grafica utilizando GGPLOT
+ggplot(Prestige) +
+  
+  geom_bar(aes(x = type)) +
+  
+  ggtitle("Count of Incumbents' Occupation") +
+  
+  theme(plot.title = element_text(hjust = 0.5))
+  
+#Grafica de Dispersión con Labes
+ggplot(Prestige, aes(x = education, y = income)) +
+  
+  geom_text(aes(label = type), size = 4) +
+  
+   ggtitle("Scatterplot With Data Labels") +
+  
+  theme(plot.title = element_text(hjust = 0.5))
+<<<<<<<<<<<<<<<<<<<<<<<<<------------------------------------>>>>>>>>>>>>>>>>>
+#Agregando una libreria mas de graficos  
+install.packages("ggrepel") 
+library(ggrepel)
+
+#Agregando mas variables al grafico
+ggplot(Prestige, mapping = aes(x = education, y = income)) +
+  
+  geom_point(aes(color = prestige, shape = type)) +
+  
+  ggtitle("Education vs. Income Scatterpot Per Prestige and Type") +
+  
+  theme(plot.title = element_text(hjust = 0.5))
+  
+  
+#IRIS Analisis
+library(datasets)
+data(iris)
+summary(iris)
+plot(iris)
+plot(iris$Sepal.Length)
+hist(iris$Sepal.Length)
+boxplot(iris$Sepal.Length)
+
+plot(iris$Sepal.Width)
+hist(iris$Sepal.Width)
+boxplot(iris$Sepal.Width)
+
+
+dim(iris)
+names(iris)
+class(iris)
+table(iris$Species)
+pie(table(iris$Species), main = "Pie Chart of the Iris data set Species", col = c("orange1", "chocolate", "coral"), radius = 1)
+print("covarianza entre variables")
+cov(iris[, 1:4])
+print("correlacion entre variables")
+cor(iris[, 1:4])
+aggregate(Sepal.Length  ~ Species, iris, summary)
+par(mfrow=c(2,2)) #Dividir el espacio en 2 filas y 2 columnas para los graficos
+boxplot(Sepal.Length  ~ Species, iris, main = "Sepal Length X Specie", col = "lightpink3")
+boxplot(Sepal.Width   ~ Species, iris, main = "Sepal Width X Specie", col = "antiquewhite1")
+boxplot(Sepal.Length  ~ Species, iris, main = "Petal Length X Specie", col = "lightskyblue4")
+boxplot(Sepal.Width  ~ Species, iris, main = "Petal Width X Specie", col = "orange1")
+-------------------------->>>>>>>>>>>
+#Grafica Ancho vs Largo
+g <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))
+g <- g + geom_point(aes(shape = factor(iris$Species), colour = factor(iris$Species)))
+g <- g + ggtitle (" Largo Vs Ancho X Specie" )
+g <- g + stat_smooth(method= lm)
+g
+
+#Mas visualizaciones
+library(ggplot2) 
+library(readr) 
+library(gridExtra)
+library(grid) #Paquete de Graficas
+library(plyr) #Paquete para splitear data
+iris=read.csv('Iris.csv')
+iris[sample(nrow(iris),10),] #Revisando una muestra aleatoria de 10 filas
+
+
+# Analisis de Histograma por variable
+
+# Sepal length 
+HisSl <- ggplot(data=iris, aes(x=SepalLengthCm))+
+  geom_histogram(binwidth=0.2, color="black", aes(fill=Species)) + 
+  xlab("Sepal Length (cm)") +  
+  ylab("Frequency") + 
+  theme(legend.position="none")+
+  ggtitle("Histogram of Sepal Length")+
+  geom_vline(data=iris, aes(xintercept = mean(SepalLengthCm)),linetype="dashed",color="grey")
+
+
+# Sepal width
+HistSw <- ggplot(data=iris, aes(x=SepalWidthCm)) +
+  geom_histogram(binwidth=0.2, color="black", aes(fill=Species)) + 
+  xlab("Sepal Width (cm)") +  
+  ylab("Frequency") + 
+  theme(legend.position="none")+
+  ggtitle("Histogram of Sepal Width")+
+  geom_vline(data=iris, aes(xintercept = mean(SepalWidthCm)),linetype="dashed",color="grey")
+
+
+# Petal length
+HistPl <- ggplot(data=iris, aes(x=PetalLengthCm))+
+  geom_histogram(binwidth=0.2, color="black", aes(fill=Species)) + 
+  xlab("Petal Length (cm)") +  
+  ylab("Frequency") + 
+  theme(legend.position="none")+
+  ggtitle("Histogram of Petal Length")+
+  geom_vline(data=iris, aes(xintercept = mean(PetalLengthCm)),
+             linetype="dashed",color="grey")
+
+
+
+# Petal width
+HistPw <- ggplot(data=iris, aes(x=PetalWidthCm))+
+  geom_histogram(binwidth=0.2, color="black", aes(fill=Species)) + 
+  xlab("Petal Width (cm)") +  
+  ylab("Frequency") + 
+  theme(legend.position="right" )+
+  ggtitle("Histogram of Petal Width")+
+  geom_vline(data=iris, aes(xintercept = mean(PetalWidthCm)),linetype="dashed",color="grey")
+  
+  
+grid.arrange(HisSl + ggtitle(""),
+             HistSw + ggtitle(""),
+             HistPl + ggtitle(""),
+             HistPw  + ggtitle(""),
+             nrow = 2,
+             top = textGrob("Iris Frequency Histogram", 
+                            gp=gpar(fontsize=15))
+)
+
+
+
+#Construyendo grafica de Densidad
+DhistPl <-    ggplot(iris, aes(x=PetalLengthCm, colour=Species, fill=Species)) +
+  geom_density(alpha=.3) +
+  geom_vline(aes(xintercept=mean(PetalLengthCm),  colour=Species),linetype="dashed",color="grey", size=1)+
+  xlab("Petal Length (cm)") +  
+  ylab("Density")+
+  theme(legend.position="none")
+
+DhistPw <- ggplot(iris, aes(x=PetalWidthCm, colour=Species, fill=Species)) +
+  geom_density(alpha=.3) +
+  geom_vline(aes(xintercept=mean(PetalWidthCm),  colour=Species),linetype="dashed",color="grey", size=1)+
+  xlab("Petal Width (cm)") +  
+  ylab("Density")
+  
+
+
+DhistSw <- ggplot(iris, aes(x=SepalWidthCm, colour=Species, fill=Species)) +
+  geom_density(alpha=.3) +
+  geom_vline(aes(xintercept=mean(SepalWidthCm),  colour=Species), linetype="dashed",color="grey", size=1)+
+  xlab("Sepal Width (cm)") +  
+  ylab("Density")+
+  theme(legend.position="none")
+
+
+DhistSl <- ggplot(iris, aes(x=SepalLengthCm, colour=Species, fill=Species)) +
+  geom_density(alpha=.3) +
+  geom_vline(aes(xintercept=mean(SepalLengthCm),  colour=Species),linetype="dashed", color="grey", size=1)+
+  xlab("Sepal Length (cm)") +  
+  ylab("Density")+
+  theme(legend.position="none")
+
+ grid.arrange(DhistSl + ggtitle(""),
+             DhistSw  + ggtitle(""),
+             DhistPl + ggtitle(""),
+             DhistPw  + ggtitle(""),
+             nrow = 2,
+             top = textGrob("Iris Density Plot", 
+                            gp=gpar(fontsize=15))
+)
+
+
+#Grafica Box-Plot por Especie
+ggplot(iris, aes(Species, PetalLengthCm, fill=Species)) + 
+  geom_boxplot()+
+  scale_y_continuous("Petal Length (cm)", breaks= seq(0,30, by=.5))+
+  labs(title = "Iris Petal Length Box Plot", x = "Species")
+  
+#Graficando multiples Box-Plot
+
+BpSl <- ggplot(iris, aes(Species, SepalLengthCm, fill=Species)) + 
+        geom_boxplot()+
+        scale_y_continuous("Sepal Length (cm)", breaks= seq(0,30, by=.5))+
+        theme(legend.position="none")
+
+
+
+BpSw <-  ggplot(iris, aes(Species, SepalWidthCm, fill=Species)) + 
+          geom_boxplot()+
+          scale_y_continuous("Sepal Width (cm)", breaks= seq(0,30, by=.5))+
+          theme(legend.position="none")
+
+
+
+BpPl <- ggplot(iris, aes(Species, PetalLengthCm, fill=Species)) + 
+        geom_boxplot()+
+        scale_y_continuous("Petal Length (cm)", breaks= seq(0,30, by=.5))+
+        theme(legend.position="none")
+        
+
+
+BpPw <-  ggplot(iris, aes(Species, PetalWidthCm, fill=Species)) + 
+        geom_boxplot()+
+        scale_y_continuous("Petal Width (cm)", breaks= seq(0,30, by=.5))+
+        labs(title = "Iris Box Plot", x = "Species")
+
+
+
+grid.arrange(BpSl  + ggtitle(""),
+             BpSw  + ggtitle(""),
+             BpPl + ggtitle(""),
+             BpPw + ggtitle(""),
+             nrow = 2,
+             top = textGrob("Sepal and Petal Box Plot", 
+                            gp=gpar(fontsize=15))
+)  
+
+
+#grafica de Violin
+VpSl <-  ggplot(iris, aes(Species, SepalLengthCm, fill=Species)) + 
+        geom_violin(aes(color = Species), trim = T)+
+        scale_y_continuous("Sepal Length", breaks= seq(0,30, by=.5))+
+        geom_boxplot(width=0.1)+
+        theme(legend.position="none")
+
+VpSw <-  ggplot(iris, aes(Species, SepalWidthCm, fill=Species)) + 
+        geom_violin(aes(color = Species), trim = T)+
+        scale_y_continuous("Sepal Width", breaks= seq(0,30, by=.5))+
+        geom_boxplot(width=0.1)+
+        theme(legend.position="none")
+  
+
+
+VpPl <-  ggplot(iris, aes(Species, PetalLengthCm, fill=Species)) + 
+        geom_violin(aes(color = Species), trim = T)+
+        scale_y_continuous("Petal Length", breaks= seq(0,30, by=.5))+
+        geom_boxplot(width=0.1)+
+        theme(legend.position="none")
+        
+
+
+
+VpPw <-  ggplot(iris, aes(Species, PetalWidthCm, fill=Species)) + 
+        geom_violin(aes(color = Species), trim = T)+
+        scale_y_continuous("Petal Width", breaks= seq(0,30, by=.5))+
+        geom_boxplot(width=0.1)+
+        labs(title = "Iris Box Plot", x = "Species")
+  
+
+grid.arrange(VpSl  + ggtitle(""),
+             VpSw  + ggtitle(""),
+             VpPl + ggtitle(""),
+             VpPw + ggtitle(""),
+             nrow = 2,
+             top = textGrob("Sepal and Petal Violin Plot", 
+                            gp=gpar(fontsize=15))
+)
+ 
+
+#Grafica de Regresion
+
+ggplot(data = iris, aes(x = PetalLengthCm, y = PetalWidthCm))+
+  xlab("Petal Length")+
+  ylab("Petal Width") +
+  geom_point(aes(color = Species,shape=Species))+
+  geom_smooth(method='lm')+
+  ggtitle("Petal Length vs Width")
+
+
+
+library(car)
+scatterplot(iris$PetalLengthCm,iris$PetalWidthCm)
+ 
+ 
+#Analisis de Correlacion
+library(GGally)
+ggpairs(data = iris[1:4],
+        title = "Iris Correlation Plot",
+        upper = list(continuous = wrap("cor", size = 5)), 
+        lower = list(continuous = "smooth")
+)
+ 
+#Mapa de Calor con GGally
+irisMatix <- as.matrix(iris[1:150, 1:4])
+irisTransposedMatrix <- t(irisMatix)[,nrow(irisMatix):1] #Esto es para asegurarse que las filas corresponden a las observaciones
+
+image(1:4, 1:150, irisTransposedMatrix) 
+ 
+  
+#library(PerformanceAnalytics)
+install.packages("PerformanceAnalytics") 
+library("PerformanceAnalytics") 
+chart.Correlation(iris[,1:4],col=iris$Species)
+
+
+
+
+

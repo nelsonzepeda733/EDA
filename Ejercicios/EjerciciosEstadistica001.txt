@@ -1,0 +1,347 @@
+#Utilizando R como una calculadora
+1 + 4 # El espacio entre el signo de operación es opcional
+5 - 1 # El espacio entre el signo de operación es opcional
+5 * 9 # El espacio entre el signo de operación es opcional
+sqrt (136)  # Raiz Cuadrada
+log10 (100)  # logaritmo base 10
+log(1.4) #logaritmo natural
+10 %% 3  # residuo de una division
+10 %/% 3  # Cociente de una division
+pi #valor PI
+
+
+
+# Construyendo Funciones
+add <- function(x, y) {
+return(x + y)
+}
+subtract <- function(x, y) {
+return(x - y)
+}
+multiply <- function(x, y) {
+return(x * y)
+}
+divide <- function(x, y) {
+return(x / y)
+}
+
+hipotenusa <- function(x, y) {
+sqrt(x^2 + y^2)
+}
+
+class(hipotenusa)
+
+hipotenusa(3, 4)
+
+
+
+
+#los datos y sus tipos
+x<-2 #asignación de variables
+print(x) #Desplegando el contenido de la variable x
+class(x)
+
+X<-6 #asignación de variables
+print(X) #Desplegando el contenido de la variable X
+class(X)
+
+x<-20L
+print(x) #Desplegando el contenido de la variable x
+class(x)
+
+x<-as.integer(6/2)
+print(x)
+class(x)
+
+
+sqrt(-1)
+z <- -1 + 0i
+com <- sqrt(z)
+print(com)
+class(com)
+
+
+x <- 1.03
+y <- as.integer(x) # conversión a entero
+
+y
+
+
+z <- as.complex(y) # conversión a complejo
+z
+
+a <- c("1000", "2013.1", "0")
+class(a)
+b <- as.numeric(a)
+b
+class(b)
+c <- as.logical(b)
+class(c)
+
+
+
+
+#creando un vector sin asignarlo a una variable
+c(4,5,6)
+
+v1<-c(4,5,6)
+c(4,5,6)->v2
+assign("v3",c(4,5,6))
+v4=c(4,5,6)
+print(v1)
+print(v2)
+print(v3)
+print(v4)
+
+#Creando Vectores a partir de archivos de texto
+setwd("C:/Users/Nelson/Desktop/Curso Machine Learning/AFPCrecer/CursoEstudio/FundamentosMachineLearning/CursoFinal/Ejercicios")
+vec <- scan("vector1.txt")
+vec
+print(vec)
+class(vec)
+
+vec <- scan("vector1.txt", integer())
+vec
+print(vec)
+class(vec)
+
+vec <- scan("vector2.txt", integer())
+
+vec <- scan("vector2.txt")
+class(vec)
+
+write(vec,"Mivector.txt")
+
+#Operaciones con el vector
+x<-c(1, 6, 4, 10, -2)
+sum(x)
+length(x)
+mean(x)
+var(x)
+sd(x)
+max(x)
+min(x)
+median(x)
+y<-sort(x)
+y
+
+#vectores a partir de secuencias
+v<-vector("integer",0) #un vector de numeros enteros sin elementos
+v<-vector("integer",3) #un vector de numeros enteros para 3 elementos
+v<-vector("logical",3) #un vector de binarios para 3 elementos
+1:3 #Secuencia de numeros
+v<-1:40
+print(v)
+class(v)
+
+v<-65:40
+print(v)
+class(v)
+
+v<-pi:10
+print(v)
+class(v)
+
+v<-seq(from=5, to=15, by=2)
+print(v)
+
+u<-c(3, 4, 5) #uniendo vectores
+v<-c(5, 4, 3)
+w<-c(u, v)
+
+w[3] #Acceso al 3er elemento del vector
+
+#Asignando nombres a los elementos
+frutas <- c(15, 100, 2, 30) 
+frutas
+names(frutas) <- c("naranja", "mango", "manzana", "durazno")
+frutas
+frutas <- c(naranja = 15, mango = 100, manzana = 2, durazno = 30)
+frutas
+frutas["mango"]
+
+
+#Construyendo Matrices
+m<-1:10 #A partir de un vector
+m
+dim(m)<-c(2, 5) #Convirtiendola en una matriz de 2 filas y 5 columnas
+m
+class(m)
+dim(m)<-c(5, 2) #Convirtiendola en una matriz de 5 filas y 2 columnas
+m[1,2]
+(m <- matrix(11:30, nrow = 5, ncol = 4, byrow = TRUE))
+m
+
+rownames(m) <- c("F1", "F2", "F3", "F4", "F5") #asignación de nombres
+colnames(m) <- c("C1", "C2", "C3", "C4")
+m
+colnames(m)
+class(m)
+class(m["F1","C2"])
+
+(m2 <- cbind(c(1.5, 3.2, -5.5), c(0, -1.1, 60))) #Creación a partir de vectores
+
+#Operaciones con Matrices
+(m <- matrix(1:15, nrow = 5, ncol = 3))
+m
+(mm <- rbind(1:3, 3:1, c(1, 1, 1), c(2, 2, 2), c(3, 3, 3)))
+mm
+m * mm
+
+
+#Factores
+persona <- c("Hugo", "Paco", "Luis", "Petra", "Maria", "Fulano","Sutano", "Perengano", "Metano", "Etano", "Propano")
+mes.nacimiento <- c("Dic", "Feb", "Oct", "Mar", "Feb", "Nov","Abr", "Dic", "Feb", "Oct", "Dic")
+persona
+print(persona[7]); print(mes.nacimiento[7])
+print( c(persona[7], mes.nacimiento[7]) )
+paste(persona[7], "nacio en el mes de", mes.nacimiento[7])
+
+Fmes.nacimiento <- as.factor(mes.nacimiento)
+Fmes.nacimiento
+
+paste(persona[7], "nacio en el mes de", Fmes.nacimiento[7])
+
+unclass(Fmes.nacimiento)
+
+table(Fmes.nacimiento)
+
+meses <- c("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic")
+FFmes.nacimiento <- factor(mes.nacimiento, levels=meses)
+FFmes.nacimiento
+table(FFmes.nacimiento)
+table(mes.nacimiento)
+
+Fmes.nacimiento[10]
+levels(Fmes.nacimiento)[3]
+
+
+#Listas
+familia <- list("Maria", "Juan", 10, c("Hugo", "Petra"), c(8,6))
+familia
+class(familia)
+
+familia <- list(madre="Maria", padre="Juan", casados=10,hijos=c("Hugo", "Petra"), edades=c(8, 6))
+familia
+
+familia$madre
+familia[["madre"]]
+
+
+#Dataframe
+(m <- cbind(ord=1:3, edad=c(30L, 26L, 9L)) )
+
+(v <- c(1.80, 1.72, 1.05) )
+
+ff <- data.frame(familia=c("Padre", "Madre", "Hijo"),m, estatura=v)
+ff
+class(ff)
+
+mi.tabla <- read.table("tabla1.txt")
+mi.tabla
+class(mi.tabla)
+
+colnames(mi.tabla)
+rownames(mi.tabla)
+mi.tabla$Piso
+mi.tabla[[2]]
+mi.tabla[2]
+mi.tabla[3, 2]
+mi.tabla[3, 2] <- 106
+mi.tabla
+mi.tabla$Calentador
+class(mi.tabla$Calentador)
+mi.tabla$Total <- mi.tabla$Precio * mi.tabla$Area
+mi.tabla
+
+#Instrucciones condicionales
+aa <- 15
+if (aa > 14) # Evaluacion simple si la variable es mayor
+print("SOY MAYOR")
+
+if (10 > aa) { # 1er. bloque
+print("RANGO MENOR")
+} else if ( 10 <= aa && aa <= 20) { # 2o. bloque
+ print("RANGO MEDIO")
+} else { # 3er. bloque
+print("RANGO MAYOR")
+}
+
+#ciclos
+letras <- c("c", "l", "i", "M", "T", "A")
+for (i in 1:6) {
+print(letras[i])
+}
+
+for (i in seq_along(letras)) {
+print(letras[i])
+}
+
+for (letra in letras) {
+print(letra)
+}
+
+for (i in 1:7) {
+if (3 <= i && i <= 5)
+next
+print(i)
+}
+
+
+#Ejercicios de promedios
+nums <- runif(32, 10.5, 40.8) #generando 32 numeros aleatorios entre 10.5 y 40.8
+suma <- 0 #Inicializamos la variable
+for (elt in nums) {
+suma <- suma + elt # se agrega cada elemento de los numeros aleatorios
+}
+(promedio <- suma/length(nums))
+
+(promedio <- sum(nums)/length(nums))
+
+
+haz_promedio <- function(v) {
+sum(v)/length(v)
+}
+
+haz_promedio(nums)
+
+mean(nums)
+
+(misDatos <- data.frame(uno = runif(5, 10.5, 40.3), dos = runif(5),tres = runif(5, 155, 890)))
+
+sapply(misDatos, haz_promedio, simplify = TRUE)
+sapply(misDatos, mean, simplify = TRUE)
+
+lapply(misDatos, mean)
+
+
+tt <- read.csv("Precipitaciones.csv")
+
+mls <- split(tt[, 3:5], tt$Anio)
+
+mls$"1980"
+lapply(mls, colMeans)
+lapply(mls, rowSums)
+sapply(mls, colMeans, na.rm = T) #removiendo los NA
+
+class(sapply(mls, colMeans, na.rm = T))
+
+
+
+pp <- read.table("precipitacionesAnuales.txt")
+pp
+head(pp) #verificamos primeras 6 filas
+hh <- hist(pp$Precip, breaks = 15)
+( mu <- mean(pp$Precip) ) #media
+( sigma <- sd(pp$Precip) ) #desv
+
+valores <- c(20, 50, 115, 150, 200)
+dnorm(valores, mu, sigma)
+
+dnormX <- function(x) dnorm(x, mu, sigma)
+dnormX(valores)
+lims <- c(mu - 3 * sigma, mu + 3 * sigma)
+curve(dnormX, xlim = lims)
+
+hist(pp$Precip, breaks = 15, freq = FALSE, xlim = lims)
+curve(dnormX, add = TRUE)
